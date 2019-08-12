@@ -1,5 +1,7 @@
 # appfarms signature dialog 
 
+[![Build Status](https://gitlab.appfarms.com/timonknispel/afsigdialog-android/-/releases)
+
 ## Implementation 
 0. Download the library file at : [af_sig_dialog.aar](https://gitlab.appfarms.com/timonknispel/afsigdialog-android/blob/master/afsigdialog/build/outputs/aar/afsigdialog-release.aar)
 1. Right-Click on the project -> new -> Module
