@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:drawable="@drawable/ic_logo_af"
+                 tools:targetApi="21">
+    <target
+        android:name="phone"
+        android:animation="@anim/phone_anim" />
+    <target
+        android:name="plant"
+        android:animation="@anim/plant_anim" />
+</animated-vector>

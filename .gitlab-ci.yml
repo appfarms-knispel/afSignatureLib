@@ -1,0 +1,28 @@
+stages:
+  - check
+  - parseCheck
+
+
+check:
+  allow_failure: true
+  stage: check
+  script:
+    - ./gradlew ktlint lintProdDebug
+  artifacts:
+    paths:
+      - app/build/reports/ktlint-report.json
+      - app/build/reports/lint-report.xml
+    expire_in: 1 day
+    when: on_failure
+
+parseCheck:
+  stage: parseCheck
+  dependencies:
+    - check
+  script:
+    - sh errorParser.sh
+  artifacts:
+    when: on_failure
+    expire_in: 1 week
+    reports:
+      junit:  app/build/reports/parsed_report.xml
