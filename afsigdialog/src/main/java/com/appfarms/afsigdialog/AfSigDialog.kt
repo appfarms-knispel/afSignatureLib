@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Animatable
 import android.os.Bundle
+import android.preference.Preference
 import android.view.View
 import android.view.Window
 import kotlinx.android.synthetic.main.af_dialog.*
@@ -78,7 +79,7 @@ class AfSigDialog(
 
 
     /**
-     *  This Function sets a clickListener on the [target] and holds the logic for each tip
+     *  This Function sets a clickListener on the [target] and calls the logic for each tip
      *
      * @param target the view target
      * @see [setTipTimeOut]
@@ -87,23 +88,45 @@ class AfSigDialog(
      */
     fun setTrigger(target: View): AfSigDialog {
         target.setOnClickListener {
-            if (firstTipAt == null) {
-                firstTipAt = System.currentTimeMillis()
-                tipCount--
+            triggerCalled()
+        }
+        return this
+    }
+
+    /**
+     *  This Function sets a clickListener on the [target] and calls the logic for each tip
+     *
+     * @param target the preference target
+     * @see [setTipTimeOut]
+     * @see [setTipCount]
+     *
+     */
+    fun setTrigger(target: Preference): AfSigDialog {
+        target.setOnPreferenceClickListener {
+            triggerCalled()
+            true
+        }
+        return this
+    }
+
+    /**
+     *  This Function holds the logic for each tip
+     */
+    private fun triggerCalled() {
+        if (firstTipAt == null) {
+            firstTipAt = System.currentTimeMillis()
+            tipCount--
+        } else {
+            if (System.currentTimeMillis().minus(firstTipAt as Long) >= maxTime) {
+                reset()
             } else {
-                if (System.currentTimeMillis().minus(firstTipAt as Long) >= maxTime) {
+                tipCount--
+                if (tipCount <= 0) {
+                    this.show()
                     reset()
-                } else {
-                    tipCount--
-                    if (tipCount <= 0) {
-                        this.show()
-                        reset()
-                    }
                 }
             }
         }
-
-        return this
     }
 
     private fun reset() {
