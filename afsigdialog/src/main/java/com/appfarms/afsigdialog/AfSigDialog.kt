@@ -4,9 +4,9 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Animatable
 import android.os.Bundle
-import android.preference.Preference
 import android.view.View
 import android.view.Window
+import androidx.preference.Preference
 import kotlinx.android.synthetic.main.af_dialog.*
 
 /**
