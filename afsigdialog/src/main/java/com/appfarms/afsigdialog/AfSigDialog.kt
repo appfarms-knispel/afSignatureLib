@@ -30,7 +30,7 @@ class AfSigDialog(
     private val thirdLine: String = "Karl-Ferdinand-Braun-Straße 7\nD-28359 Bremen\nGermany"
 ) : Dialog(context, R.style.AfDialog) {
 
-    private var tipMax = 1
+    private var tipMax = 10
     private var tipCount = 0
     private var firstTipAt: Long? = null
     private var maxTime = 5000
@@ -58,14 +58,18 @@ class AfSigDialog(
             }
         }
 
+        setOnDismissListener {
+            konfettiView.apply {
+                reset()
+                clearAnimation()
+            }
+        }
+
         setOnShowListener {
             if (af_img.drawable is Animatable) {
                 (af_img.drawable as Animatable).start()
             }
-            konfettiView.apply {
-                reset()
-                clearAnimation()
-                build()
+            konfettiView.build()
                     .addColors(
                         ContextCompat.getColor(context, R.color.af_green),
                         ContextCompat.getColor(context, R.color.af_blue)
@@ -81,8 +85,6 @@ class AfSigDialog(
                     .addSizes(Size(12))
                     .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
                     .streamFor(300, 5000L)
-            }
-
         }
     }
 
