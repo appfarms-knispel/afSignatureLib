@@ -4,10 +4,16 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Animatable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import kotlinx.android.synthetic.main.af_dialog.*
+import nl.dionsegijn.konfetti.models.Shape.CIRCLE
+import nl.dionsegijn.konfetti.models.Shape.RECT
+import nl.dionsegijn.konfetti.models.Size
 
 /**
  *  This class holds all the logic for displaying the appfarms hidden dialog
@@ -24,7 +30,7 @@ class AfSigDialog(
     private val thirdLine: String = "Karl-Ferdinand-Braun-Straße 7\nD-28359 Bremen\nGermany"
 ) : Dialog(context, R.style.AfDialog) {
 
-    private var tipMax = 10
+    private var tipMax = 1
     private var tipCount = 0
     private var firstTipAt: Long? = null
     private var maxTime = 5000
@@ -33,18 +39,52 @@ class AfSigDialog(
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.af_dialog)
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
 
-        if (af_img.drawable is Animatable) {
-            (af_img.drawable as Animatable).start()
-        }
+        setCancelable(false)
 
         tv1.text = firstLine
 
         tv2.text = secondLine
 
         tv3.text = thirdLine
-    }
 
+        konfettiView.setOnClickListener {
+            if (af_img.drawable is Animatable && !(af_img.drawable as Animatable).isRunning) {
+                dismiss()
+            }
+        }
+
+        setOnShowListener {
+            if (af_img.drawable is Animatable) {
+                (af_img.drawable as Animatable).start()
+            }
+            konfettiView.apply {
+                reset()
+                clearAnimation()
+                build()
+                    .addColors(
+                        ContextCompat.getColor(context, R.color.af_green),
+                        ContextCompat.getColor(context, R.color.af_blue)
+                    )
+                    .setDirection(0.0, 359.0)
+                    .setSpeed(1f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(2000L)
+                    .addShapes(
+                        RECT,
+                        CIRCLE
+                    )
+                    .addSizes(Size(12))
+                    .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
+                    .streamFor(300, 5000L)
+            }
+
+        }
+    }
 
     /**
      *  This Function sets a new Threshold for how often the user needs to tip on the
@@ -115,19 +155,20 @@ class AfSigDialog(
     private fun triggerCalled() {
         if (firstTipAt == null) {
             firstTipAt = System.currentTimeMillis()
-            tipCount--
+            tipCount++
         } else {
             if (System.currentTimeMillis().minus(firstTipAt as Long) >= maxTime) {
                 reset()
             } else {
-                tipCount--
-                if (tipCount <= 0) {
+                tipCount++
+                if (tipCount >= tipMax) {
                     this.show()
                     reset()
                 }
             }
         }
     }
+
 
     private fun reset() {
         firstTipAt = null
