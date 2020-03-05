@@ -1,14 +1,11 @@
 # appfarms signature dialog 
 
 ## Implementation 
-0. Download the library file at : [af_sig_dialog.aar](https://gitlab.appfarms.com/timonknispel/afsigdialog-android/blob/master/afsigdialog/build/outputs/aar/afsigdialog-release.aar)
-1. Right-Click on the project -> new -> Module
-2. Select import .JAR/.AAR Package
-3. Navigate to the downloaded .AAR file
-4. Insert into your app build.gradle file :
+1. Insert into your app build.gradle file :
 ```gradle 
-implementation projekt(:"afsigdialog") 
+implementation 'com.appfarms:AfSigDialog:VERSION'
 ```
+![Bintray](https://img.shields.io/bintray/v/t-knispel/AfSigDialog/AfSigDialog?label=%20version&style=flat-square)
 
 ## Usage
 
