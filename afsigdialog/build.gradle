@@ -16,7 +16,7 @@ ext {
     siteUrl = ''
     gitUrl = 'https://gitlab.appfarms.com/timonknispel/afsigdialog-android'
 
-    libraryVersion = '1.3'
+    libraryVersion = '1.3.2'
 
     developerId = 'myID' // Maven plugin uses this. I don't know if it needs to be anything special.
     developerName = 'Timon Knispel'
@@ -33,8 +33,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 4
-        versionName "1.3"
+        versionCode 6
+        versionName "1.3.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

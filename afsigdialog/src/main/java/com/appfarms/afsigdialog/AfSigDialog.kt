@@ -62,7 +62,7 @@ class AfSigDialog(
             if (af_img.drawable is Animatable) {
                 (af_img.drawable as Animatable).start()
             }
-            konfettiView.apply {
+            konfettiView?.apply {
                 build()
                     .addColors(
                         ContextCompat.getColor(context, R.color.af_green),
