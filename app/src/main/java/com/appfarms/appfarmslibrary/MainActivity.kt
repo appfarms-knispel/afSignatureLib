@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        AfSigDialog(this).setTipTimeOut(10000).setTrigger(click_me)
+        AfSigDialog(this).setTapTimeOut(10000).setTrigger(click_me)
 
     }
 }

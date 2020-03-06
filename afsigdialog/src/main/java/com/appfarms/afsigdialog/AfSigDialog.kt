@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Animatable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -30,9 +29,9 @@ class AfSigDialog(
     private val thirdLine: String = "Karl-Ferdinand-Braun-Straße 7\nD-28359 Bremen\nGermany"
 ) : Dialog(context, R.style.AfDialog) {
 
-    private var tipMax = 10
-    private var tipCount = 0
-    private var firstTipAt: Long? = null
+    private var maxTap = 10
+    private var tapCount = 0
+    private var firstTapAt: Long? = null
     private var maxTime = 5000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,12 +51,6 @@ class AfSigDialog(
 
         tv3.text = thirdLine
 
-        konfettiView.setOnClickListener {
-            if (af_img.drawable is Animatable && !(af_img.drawable as Animatable).isRunning) {
-                dismiss()
-            }
-        }
-
         setOnDismissListener {
             konfettiView.apply {
                 reset()
@@ -69,7 +62,8 @@ class AfSigDialog(
             if (af_img.drawable is Animatable) {
                 (af_img.drawable as Animatable).start()
             }
-            konfettiView.build()
+            konfettiView.apply {
+                build()
                     .addColors(
                         ContextCompat.getColor(context, R.color.af_green),
                         ContextCompat.getColor(context, R.color.af_blue)
@@ -85,47 +79,53 @@ class AfSigDialog(
                     .addSizes(Size(12))
                     .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
                     .streamFor(300, 5000L)
+
+                setOnClickListener {
+                    if (af_img.drawable is Animatable && !(af_img.drawable as Animatable).isRunning) {
+                        dismiss()
+                    }
+                }
+            }
         }
     }
 
     /**
-     *  This Function sets a new Threshold for how often the user needs to tip on the
+     *  This Function sets a new Threshold for how often the user needs to tap on the
      *  [trigger][setTrigger]
      *
      *  default is 10
      *
      * @param count the new Threshold
-     * @see [setTipTimeOut]
+     * @see [setTapTimeOut]
      * @see [setTrigger]
      */
-    fun setTipCount(count: Int): AfSigDialog {
-        tipMax = count
+    fun setTapCount(count: Int): AfSigDialog {
+        maxTap = count
         return this
     }
 
     /**
-     *  This Function sets a new Threshold for how long the user has time to tip on the
+     *  This Function sets a new Threshold for how long the user has time to tap on the
      *  [trigger][setTrigger]
      *
      *  default is 5 seconds
      *
      * @param time (im MS) the new Threshold
-     * @see [setTipCount]
+     * @see [setTapCount]
      * @see [setTrigger]
      *
      */
-    fun setTipTimeOut(time: Int): AfSigDialog {
+    fun setTapTimeOut(time: Int): AfSigDialog {
         maxTime = time
         return this
     }
 
-
     /**
-     *  This Function sets a clickListener on the [target] and calls the logic for each tip
+     *  This Function sets a clickListener on the [target] and calls the logic for each tap
      *
      * @param target the view target
-     * @see [setTipTimeOut]
-     * @see [setTipCount]
+     * @see [setTapTimeOut]
+     * @see [setTapCount]
      *
      */
     fun setTrigger(target: View): AfSigDialog {
@@ -136,11 +136,11 @@ class AfSigDialog(
     }
 
     /**
-     *  This Function sets a clickListener on the [target] and calls the logic for each tip
+     *  This Function sets a clickListener on the [target] and calls the logic for each tap
      *
      * @param target the preference target
-     * @see [setTipTimeOut]
-     * @see [setTipCount]
+     * @see [setTapTimeOut]
+     * @see [setTapCount]
      *
      */
     fun setTrigger(target: Preference): AfSigDialog {
@@ -152,18 +152,18 @@ class AfSigDialog(
     }
 
     /**
-     *  This Function holds the logic for each tip
+     *  This Function holds the logic for each tap
      */
     private fun triggerCalled() {
-        if (firstTipAt == null) {
-            firstTipAt = System.currentTimeMillis()
-            tipCount++
+        if (firstTapAt == null) {
+            firstTapAt = System.currentTimeMillis()
+            tapCount++
         } else {
-            if (System.currentTimeMillis().minus(firstTipAt as Long) >= maxTime) {
+            if (System.currentTimeMillis().minus(firstTapAt as Long) >= maxTime) {
                 reset()
             } else {
-                tipCount++
-                if (tipCount >= tipMax) {
+                tapCount++
+                if (tapCount >= maxTap) {
                     this.show()
                     reset()
                 }
@@ -171,9 +171,8 @@ class AfSigDialog(
         }
     }
 
-
     private fun reset() {
-        firstTipAt = null
-        tipCount = 0
+        firstTapAt = null
+        tapCount = 0
     }
 }
