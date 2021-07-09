@@ -5,7 +5,7 @@
 ```gradle 
 implementation 'com.appfarms:AfSigDialog:VERSION'
 ```
-![Bintray](https://img.shields.io/bintray/v/t-knispel/AfSigDialog/AfSigDialog?label=VERSION&style=flat-square)
+[![](https://jitpack.io/v/appfarms-knispel/afSignatureLib.svg)](https://jitpack.io/#appfarms-knispel/afSignatureLib)
 
 ## Usage
 
