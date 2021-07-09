@@ -23,7 +23,7 @@ import nl.dionsegijn.konfetti.models.Size
 
 class AfSigDialog(
     context: Context,
-    private val firstLine: String = "",
+    private val firstLine: String = "v2",
     private val secondLine: String = "appfarms GmbH & Co. KG",
     private val thirdLine: String = "Karl-Ferdinand-Braun-Straße 7\nD-28359 Bremen\nGermany"
 ) : Dialog(context, R.style.AfDialog) {
