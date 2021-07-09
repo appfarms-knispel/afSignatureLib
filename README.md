@@ -9,16 +9,7 @@ implementation 'com.appfarms:AfSigDialog:VERSION'
 
 ## Usage
 
-
-```mermaid
-graph LR
-A["AfSigDialog(context)"] -- as normal dialog --> B((".show()"))
-C --> D("setTrigger(view)")
-A -- optional --> C("setTipCount")
-A -- optional --> E("setTipTimeOut(time)")
-E --> D
-
-```
+<img width="593" alt="Bildschirmfoto 2021-07-09 um 14 53 18" src="https://user-images.githubusercontent.com/87187093/125080756-79b4c000-e0c5-11eb-94ec-84e255094380.png">
 
 ### Option 1
 Use the dialog as normal dialog with the ```show()```function
