@@ -10,8 +10,7 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import kotlinx.android.synthetic.main.af_dialog.*
-import nl.dionsegijn.konfetti.models.Shape.CIRCLE
-import nl.dionsegijn.konfetti.models.Shape.RECT
+import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 
 /**
@@ -73,8 +72,8 @@ class AfSigDialog(
                     .setFadeOutEnabled(true)
                     .setTimeToLive(2000L)
                     .addShapes(
-                        RECT,
-                        CIRCLE
+                        Shape.Square,
+                        Shape.Circle
                     )
                     .addSizes(Size(12))
                     .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
